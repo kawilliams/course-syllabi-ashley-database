@@ -1,0 +1,170 @@
+body {
+  background-color: #660000;
+  #border:1px solid black;
+}
+
+h4 {
+  color: black;
+  font-family: cambria;
+  text-align: center;
+  #border:1px solid black;
+}
+
+h5 {
+  color: gray;
+  text-align: center;
+  #border:1px solid black;
+}
+
+.search {
+  display: inline-block;
+  #border:1px solid black;
+}
+#search {  
+    background-color:#eeeeee;
+    height:100%;
+    width:25%;
+    float:left;
+    padding:10px;
+}
+
+#specific_search {
+  background-color: white;
+  width: 68%;
+  height: 20%;
+  float: right;
+  padding: 1%;
+}
+
+#courselist {
+  width: 70%;
+  height: 100%;
+  float: right;
+  margin-top: 10px;
+}
+
+.list {
+  font-family:cambria;
+  padding:20px 0 0;
+}
+.list > li {
+  display:block;
+  text-align: center;
+  background-color: lightgray;
+  padding:10px;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.avatar {
+  max-width: 150px;
+}
+img {
+  max-width: 100%;
+}
+h3 {
+  font-size: 16px;
+  margin:0 0 0.3rem;
+  font-weight: normal;
+  font-weight:bold;
+}
+p {
+  margin:0;
+}
+
+input {
+  border:solid 1px #ccc;
+  border-radius: 5px;
+  padding:7px 14px;
+  margin-bottom:10px
+}
+input:focus {
+  outline:none;
+  border-color:#aaa;
+}
+.sort {
+  padding:8px 30px;
+  border-radius: 6px;
+  border:none;
+  display: inline-block;
+  color:#fff;
+  text-decoration: none;
+  background-color: #28a8e0;
+  height:30px;
+}
+.sort:hover {
+  text-decoration: none;
+  cursor: pointer;
+  background-color:#1b8aba;
+}
+.sort:focus {
+  outline:none;
+}
+.sort:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+.sort.asc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #fff;
+  content:"";
+  position: relative;
+  top:13px;
+  right:-5px;
+}
+.sort.desc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+
+#prof {
+  background-color: white;
+  color: black;
+  padding: 5px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+#prof:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+ 
+.prof_li {
+  display:block;
+}
+
+#prof_list {
+  display:none;
+}
+
+#down_arrow {
+  float: right;
+  display:none;
+  margin: 1px;
+  width: 15px;
+  height: 15px;
+}
+
+#side_arrow {
+  float: right;
+  margin: 1px;
+  width: 15px;
+  height: 15px;
+}

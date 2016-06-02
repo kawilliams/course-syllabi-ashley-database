@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel='stylesheet' href='syllabus.css' />
+		<style>
+	body{
+	background-color: #990000;
+	}
+	
+	#davidson_logo {
+	font-size: 50px;
+	text-align: center;	
+	font-family: "copperplate gothic lite";
+	text-shadow: 2px 2px 4px #FF0000;
+	}
+	
+	#thanks{
+	background-color: #e6e6e6;	
+	margin: 40px;
+	margin-top:40px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+	min-width: 500px;	
+	}	
+	
+	h1{
+	padding:30px;
+	text-align:center;	
+	}
+	
+	#further_choices{
+	background-color:white;
+	text-align:center;
+	width:40%;	
+	padding:10px;
+	margin-left:30%;
+	font-size:16px;
+	}
+	
+</style>	
+	</head>
+	
+	<body>
+		
+		<h4 id="davidson_logo">DAVIDSON COLLEGE</h4>
+		<h3><a href="{{ url_for('show_all') }}"> Syl</a></h3>
+		<hr />
+		{%- for message in get_flashed_messages() %}
+			{{ message }}
+		{%- endfor %}
+		<div id="thanks">
+			<h1>Thank you for your submission!<h1><br><br>
+				<div id="further_choices">
+					<p>To make changes to your syllabus submission, click here:<p>
+					<a href="{{ url_for('new') }}">Syllabus Submission Form</a><br><br>
+					<p>To browse other course syllabi, click here:<p>
+					<a href="search.html">Browse Syllabi</a><br><br>
+				</div>
+		
+		<h3> Syllabus(<a href="{{ url_for('new') }}"> Add syllabus </a>) </h3>
+		<table>
+			<thead>
+				
+				<tr>
+					<th>Year</th>
+					<th>Semester</th>
+					<th>Department</th>
+					<th>Course Number</th>
+					<th>Professor</th>
+					<th>Email</th>
+					<th>Syllabus</th>
+					<th>Description</th>
+					<th>Visitable</th>
+					<th>Privacy</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				{% for up in uploads %}
+					<tr>
+						<td>{{ up.year }}</td>
+						<td>{{ up.semester }}</td>
+						<td>{{ up.dept }}</td>
+						<td>{{ up.classnum }}</td>
+						<td>{{ up.last_name }}, {{ up.first_name }}</td>
+						<td>{{ up.email }}</td>
+						<td><a href="{{url_for('download', filename=up.data) }}">{{ up.data }}</a></td>
+						<td>{{ up.desc }}</td>
+						<td>{{ up.visitable }}</td>
+						<td>{{ up.privacy }}</td>
+											
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</div>
+			
+	</body>
+</html>
