@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>  
+<html>
+<head>
+<style>
+.error {color: #ff4d4d;}
+
+body{
+background-color: #990000;
+}
+
+#required {
+margin-right:15%;	
+text-align: right;
+display: block;
+}
+
+#upload_div{
+background-color: #e6e6e6;	
+margin: 40px;
+margin-top:0px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+min-width: 500px;
+}
+
+#davidson_logo {
+font-size: 50px;
+text-align: center;	
+font-family: "copperplate gothic lite";
+text-shadow: 2px 2px 4px #FF0000;
+}
+
+#syllabus_upload {
+margin-left:10%;
+font-family: "times new roman";
+}
+
+form {
+margin-left: 10%;	
+}
+
+input, textarea, #email_id {
+margin: 3px;
+border:1px solid lightgray;
+border-radius: 4px;
+}
+
+input[type=text], input[type=number], textarea, #email_id{
+width: 25%;	
+padding: 4px;
+color: #800002;
+font-family: "times new roman";
+font-size: 13px;
+min-width: 150px;
+}
+
+input:focus, textarea:focus, #email_id:focus{
+background-color: #cccccc;	
+outline: 2px solid #cce6ff;
+}
+
+input:hover, textarea:hover, #email_id:hover{
+border-color:#999999;	
+}
+	
+input[type=radio] {
+margin: 7px;	
+}
+
+textarea{
+width: 50%;	
+}
+
+#field_id {
+font-family: "didot";	
+}
+
+label {
+font-family: "didot";
+}
+
+fieldset {
+margin-right: 10%;
+margin-bottom: 30px;
+border-color: #99ccff;	
+}
+
+fieldset:focus{
+background-color: #cccccc;	
+}
+
+legend {
+color: #4da6ff;	
+}
+
+#privacy_choices{
+background-color:white;	
+margin-right:60%;
+border: 1px solid #bfbfbf;
+border-radius: 4px;
+min-width: 220px;
+padding: 5px;
+}
+
+#submit{
+	background-color: #990000;
+	color:#FFFFFF;
+	border-radius: 4px;
+	font-size:13px;
+	padding:7px;
+	margin-bottom:30px;
+	width: 100px
+	text-align:center;
+	transition: all 0.5s;
+	cursor:pointer;
+	margin:5px;
+	margin-bottom:20px;	
+}
+
+#chambers_img{
+	width:100%; 
+	height:8% ;
+	margin-bottom:5px;
+	opacity:0.8;	
+}
+
+</style>
+</head>
+<body>  
+
+<?php
+// define variables and set to empty values
+$firstNameErr = $lastNameErr = $genderErr = $deptErr = $classnumErr = "";
+$firstName = $lastName = $gender = $comment = $dept = $classnum = $visitable = "";
+$thankyou = "";
+$errors = 0;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+	//Test First Name
+	if (empty($_POST["firstName"])) {
+    	$firstNameErr = "First Name is required";
+    	$errors++;
+  } else {
+    	$firstName = test_input($_POST["firstName"]);
+  }
+  
+  //Test Last Name
+	if (empty($_POST["lastName"])) {
+    	$lastNameErr = "Last Name is required";
+    	$errors++;
+  } else {
+    	$lastName = test_input($_POST["lastName"]);
+  }
+    
+    //Test Department
+	if (empty($_POST["dept"])) {
+   		$deptErr = "Department is required";
+  } else {
+    	$dept = test_input($_POST["dept"]);
+  }
+  	$dept = test_input($_POST["dept"]);
+  
+  //Test Class Number
+  	if (empty($_POST["classnum"])) {
+    	$classnumErr = "Class Number is required";
+  } else {
+    	$classnum = test_input($_POST["classnum"]);
+  }
+
+	//handle comment
+  	if (empty($_POST["comment"])) {
+    	$comment = "";
+  } else {
+    	$comment = test_input($_POST["comment"]);
+  }
+
+	//Test year
+  	if (empty($_POST["year"])) {
+		$yearErr = "Year is required";
+		$errors++;
+	}
+	else {
+		$year = test_input($_POST["year"]);
+	}
+	
+	//Thank you note
+   	if ($errors === 0){
+  		$thankyou = "Thank you for your submission!";
+  }
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
+
+
+<h4 id="davidson_logo">DAVIDSON COLLEGE</h4>
+
+
+<div id="upload_div">
+	<img src="https://github.com/asalexanderlee/syllabus_project/blob/upload_form_hermon/ChambersBuilding_AboutPage.jpg?raw=true" id="chambers_img">
+
+<h2 id="syllabus_upload">Syllabus Upload</h2>
+
+<p><span class="error" id="required">* required field.</span></p>
+
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+  
+  
+	<fieldset><br><legend>Personal Information</legend>
+  	First Name: <br><input id="first_name" type="text" name="firstName" required>
+ 	<span class="error">* <?php echo $firstNameErr;?></span>
+  	<br><br>
+	  	
+  	Last Name: <br><input id="last_name" type="text" name="lastName" required>
+  	<span class="error">* <?php echo $lastNameErr;?></span>
+  	<br><br>
+	  	
+	<script>
+	var def_email="";
+		function getEmail(){
+			var fname = document.getElementById("first_name").value.toLowerCase();
+			var lname = document.getElementById("last_name").value.toLowerCase();
+			
+			def_email = def_email.concat(fname.substring(0, 2),lname, "@davidson.edu");
+			document.getElementById("email_id").value=def_email;
+			def_email = "";
+		}
+	</script>  	
+	
+	Email:  <br><input id="email_id" onfocus="getEmail()" type="email" name="email" value ="" required>
+	<span class="error">* <?php echo $emailErr;?></span>
+	<br><br>
+	</fieldset>
+	
+	
+	<fieldset><legend>Class Information</legend><br>
+  	Department: <br><input type="text" name="dept" placeholder="Ex: MAT" required>
+  	<span class="error">* <?php echo $deptErr;?></span>
+  	<br><br>
+	  	
+	Class Number: <br><input type="text" name="classnum" placeholder="Ex: 110" required>
+  	<span class="error">* <?php echo $classnumErr;?></span>
+  	<br><br>
+	  	
+	Year: <br><input type="number" name="year" value=<?php echo date("Y")?>>
+	<span class="error">* <?php echo $yearErr;?></span>
+	<br/><br/>
+	Select Semester: <input type="radio" name="semester" value="fall" checked> Fall
+			             <input type="radio" name="semester" value="spring"> Spring <br><br>
+	</fieldset>
+	
+	<fieldset><legend>Privacy Settings</legend><br>
+	I would like to share this syllabus with:<br><br>
+	<div id="privacy_choices">
+		<br>
+	<input type="radio" name="privacy" value="all" checked>Anyone<br><br>
+	<input type="radio" name="privacy" value="davidson"> Just Davidson Students<br><br>
+	</div>
+	<br><br>
+		
+	<input type="checkbox" name="visitable" checked> 
+	Prospective students may visit your class.<br><br>
+	</fieldset>
+	
+		
+	<fieldset><legend>Syllabus Upload</legend>
+	  	
+  	<br>Upload Syllabus Here:<br>
+	  	<input type="file" id="syllabus" name="syllabus"><br><br>
+	  	
+	  	Further Comments on this syllabus: <br><textarea name="comment" 
+	  	rows="5" cols="40" placeholder="Optional"></textarea>
+  	<br><br>  	
+	</fieldset>
+	  
+  <input type="submit"  id="submit" name="submit" value="Submit &raquo;">   
+</form>
+      {%- for category, message in get_flashed_messages(with_categories = true) %}
+         <div class = "alert alert-danger">
+            {{ message }}
+         </div>
+      {%- endfor %}
+
+<h2><?php echo $thankyou;?><h2>
+	
+</div>
+
+</body>
+</html>
