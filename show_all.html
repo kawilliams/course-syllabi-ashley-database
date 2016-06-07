@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link rel='stylesheet' href='syllabus.css' />
 		<style>
 	body{
-	background-color: #990000;
+	background-color: #ac1a2f;
 	}
 	
 	#davidson_logo {
@@ -23,16 +22,16 @@
 	}	
 	
 	h1{
-	padding:30px;
+	padding:20px;
 	text-align:center;	
 	}
 	
-	#further_choices{
+	#database{
 	background-color:white;
 	text-align:center;
-	width:40%;	
+	width:80%;	
 	padding:10px;
-	margin-left:30%;
+	margin-left:10%;
 	font-size:16px;
 	}
 	
@@ -42,21 +41,20 @@
 	<body>
 		
 		<h4 id="davidson_logo">DAVIDSON COLLEGE</h4>
-		<h3><a href="{{ url_for('show_all') }}"> Syl</a></h3>
 		<hr />
 		{%- for message in get_flashed_messages() %}
 			{{ message }}
 		{%- endfor %}
-		<div id="thanks">
+		<!--<div id="thanks">
 			<h1>Thank you for your submission!<h1><br><br>
 				<div id="further_choices">
 					<p>To make changes to your syllabus submission, click here:<p>
-					<a href="{{ url_for('new') }}">Syllabus Submission Form</a><br><br>
+					<a href="{{ url_for('get_courses') }}">Syllabus Submission Form</a><br><br>
 					<p>To browse other course syllabi, click here:<p>
 					<a href="search.html">Browse Syllabi</a><br><br>
-				</div>
-		
-		<h3> Syllabus(<a href="{{ url_for('new') }}"> Add syllabus </a>) </h3>
+				</div>-->
+		<div id="database">
+		<h3> Syllabus(<a href="{{ url_for('get_courses') }}"> Add syllabus </a>) </h3>
 		<table>
 			<thead>
 				

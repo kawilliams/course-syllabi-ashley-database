@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>  
+<html>
+<head>
+<style>
+.error {color: #ff4d4d;}
+
+body{
+background-color: #990000;
+}
+
+#upload_div{
+background-color: #e6e6e6;	
+margin: 40px;
+margin-top:0px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+min-width: 600px;
+padding-bottom: 30px;
+}
+
+#davidson_logo {
+font-size: 50px;
+text-align: center;	
+font-family: "copperplate gothic lite";
+text-shadow: 2px 2px 4px #FF0000;
+}
+
+#syllabus_upload {
+margin-left:10%;
+font-family: "times new roman";
+}
+
+input[type=text], #email_id {
+margin-left: 20px;
+margin-bottom: 10px;
+border:1px solid lightgray;
+border-radius: 4px;
+}
+
+.input_text {
+	margin-left: 20px;	
+}
+
+input[type=text], #email_id{
+width: 25%;	
+padding: 4px;
+color: #800002;
+font-family: "times new roman";
+font-size: 13px;
+min-width: 150px;
+}
+
+input[type=text]:focus, #email_id:focus{
+background-color: #cccccc;	
+outline: 2px solid #cce6ff;
+}
+
+input[type=text]:hover, #email_id:hover{
+border-color:#999999;	
+}
+
+#button {
+	margin-left:10%;
+	padding: 8px;
+	background-color:#990000;
+	color:white;
+	border:none;
+	cursor:pointer;	
+	font-size:14px;
+	width:8%;
+	height:4%;
+	transition:0.5s;
+}
+
+#submit {
+	margin-left:43%;
+	padding: 8px;
+	background-color:#990000;
+	color:white;
+	border:none;
+	cursor:pointer;	
+	font-size:14px;
+	width:12%;
+	height:8%;
+	transition:0.5s;
+	min-width:110px;
+	/*visibility:hidden;*/
+}
+
+#button:hover, #button:focus, #submit:hover, #submit:focus {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+	transition:0.5s;
+}
+
+#chambers_img{
+	width:100%; 
+	height:8% ;
+	margin-bottom:5px;
+	opacity:0.8;	
+}
+
+table {
+	width:95%;
+	/*visibility:hidden;*/
+	border:0.5px solid gray;
+	border-collapse:collapse;	
+	min-width:500px;
+	margin: 0 auto;
+	background-color:#d9d9d9;
+}
+
+th {
+	padding:10px;
+	border-bottom: 1px solid #bfbfbf;
+	background-color: #bfbfbf;
+}
+
+td {
+	padding:5px;
+	border-bottom: 1px solid #bfbfbf;
+	min-width:120px;
+}
+
+tr:hover {background-color: #f2f2f2;}
+
+#class_intro {
+	width:95%;
+	/*visibility:hidden;*/
+	margin-right:0 auto;
+	margin-top:5px;
+	margin-left:10px;	
+	padding:10px;
+	min-width:500px;
+}
+
+#full_name {
+	text-align:center;
+	margin:10px;	
+}
+
+#you_teach {
+	text-align:center;
+	color:black;	
+	margin-right: 5%;
+	margin-left:5%;
+}
+
+.dept, .no {
+	width:4%;	
+}
+
+.title {
+	width:15%;	
+}
+
+.tab {
+	margin-left: 300px;
+}
+
+</style>
+</head>
+<body>  
+
+
+<h4 id="davidson_logo">DAVIDSON COLLEGE</h4>
+<div id="upload_div">
+	<img src="https://github.com/asalexanderlee/syllabus_project/blob/upload_form_hermon/ChambersBuilding_AboutPage.jpg?raw=true" id="chambers_img">
+
+	<h2 id="syllabus_upload">Syllabus Upload</h2>
+
+	<!--<form onsubmit="displayClasses()" action="javascript:void(0);" method="post">-->
+	<form onsubmit="{{ url_for('get_courses') }}" method="post">
+  		<span class="input_text">First Name: </span><br><input id="first_name" type="text" name="firstName" required autofocus>
+	  	<br>
+  		<span class="input_text">Last Name: </span><br><input id="last_name" type="text" name="lastName" required>
+  		<br><br>
+	  	
+		<script>
+		var def_email="";
+		function getEmail(){
+			var fname = document.getElementById("first_name").value.toLowerCase();
+			var lname = document.getElementById("last_name").value.toLowerCase();
+			
+			def_email = def_email.concat(fname.substring(0, 2),lname, "@davidson.edu");
+			document.getElementById("email_id").value = def_email;
+			def_email = "";
+		}
+		</script>  	
+	
+		<span class="input_text">Confirm Email:  </span><br><input id="email_id" onfocus="getEmail()" type="email" name="email" value ="" required>
+		<br><br>
+		{%- for message in get_flashed_messages() %}
+			<p class="input_text">{{ message }}</p>
+		{%- endfor %}
+  		<input type="submit"  id="button" name="submit" value="Enter" ><br><br>  
+	</form>
+	{% if courses|length > 0 %}
+		
+		<h3 id="full_name"></h3>
+		<p id="you_teach">Please upload your syllabus for each of the following courses. Under "Visitable", check whether you would want prospective students to visit your class ("Can visit") or not ("Not open"). Under "Privacy," please check whether everyone can view your syllabus ("Anyone") or only those on the Davidson network ("Only Davidson"). </p><br>
+		<form onsubmit="{{ url_for('submit') }}" method="post" enctype="multipart/form-data">
+		
+			{% if courses[0].semester == 'F' %}
+				<h3 id="you_teach">{{ courses[0].first_name }} {{ courses[0].last_name }}'s Courses for Fall {{ courses[0].year }}</h3>
+			{% else %}
+				<h3 id="you_teach">{{ courses[0].first_name }} {{ courses[0].last_name }}'s Courses for Spring {{ courses[0].year }}</h3>
+			{% endif %}
+	
+		<table id="class_table">
+			<thead>				
+				<tr>
+					<th name="dept">Department</th>
+					<th name="classnum">Course Number</th>
+					<!--<th name="prof">Professor</th>-->
+					<!--<th name="email">Email</th>-->
+					<th name="data">Syllabus</th>
+					<th name="visitable">Visitable</th>
+					<th name="privacy">Privacy</th>
+				</tr>
+			</thead>	
+			<tbody>
+				{% for c in courses %}
+					
+					<tr>
+						<td name="dept{{loop.index0}}">{{ c.dept }}</td>
+						<td name="classnum{{loop.index0}}">{{ c.classnum }}</td>
+						<!--<td name="name{{loop.index0}}">{{ c.last_name }}, {{ c.first_name }}</td>
+						<td name="email{{loop.index0}}">{{ c.email }}</td>-->
+						<td name="data{{loop.index0}}"><p>Upload course syllabus: <input type="file" name="data{{loop.index0}}" size="40"></p></td>
+						<td name="visitable{{loop.index0}}"><input type="radio" name="visitable{{loop.index0}}" value="Can visit" checked> Can visit <br >
+							<input type="radio" name="visitable{{loop.index0}}" value="Not open"> Not open</td>
+              			<td name="privacy{{loop.index0}}"><input type="radio" name="privacy{{loop.index0}}" value="all" checked> Anyone <br >
+							<input type="radio" name="privacy{{loop.index0}}" value="davidson"> Only Davidson </td>
+						<!--<td><a href="{{url_for('download', filename=c.data) }}">{{ c.data }}</a></td>
+						<td>{{ c.visitable }}</td>
+						<td>{{ c.privacy }}</td>-->
+											
+					</tr>
+				{% endfor %}
+			</tbody>
+		
+		</table>
+		<br>
+		<input type="submit" name="submit" id="submit" value="Submit Syllabi"><br>
+			
+		</form>	
+			<script>
+	var fullname = "";
+	function displayClasses(){
+	
+		//Display Name
+		var first = document.getElementById("first_name").value;
+		var last = document.getElementById("last_name").value;
+		console.log(first);
+		
+		if ((first != "") || (last != "")){	
+			fullname = fullname.concat(first, " ", last, ",");
+			document.getElementById("full_name").innerHTML = fullname;
+			fullname = "";
+		}
+		
+		//scroll to the table
+		document.getElementById('class_table').scrollIntoView();
+	}
+</script>
+	<div id="class_intro">
+		<script>
+			displayClasses()
+		</script>
+	</div>
+{% endif %}
+</div>
+
+</body>
+</html>
+
