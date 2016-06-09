@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <link rel="stylesheet" type="text/css" href={{url_for('static',filename='upload.css')}}>
+        <title>Revamp</title>
+    </head>
+    <body>
+	    <h4 id="davidson_logo">DAVIDSON COLLEGE</h4>
+	    <div id="upload_div">
+		<img src="https://github.com/asalexanderlee/syllabus_project/blob/upload_form_hermon/ChambersBuilding_AboutPage.jpg?raw=true" id="chambers_img">			
+
+        <h2 id="syllabus_upload">Syllabus Upload</h2>
+        {% set pop_courses = False %}
+        {% set submit_courses = False %}
+        {% set first_load = True %}
+        
+		<form onsubmit="{{ url_for('get_courses') }}" method="post" enctype="multipart/form-data">
+												
+		<span class="input_text">First name: </span><br><input id="first_name" type="text" name="firstname" required autofocus value="{{ firstname }}">
+		<br>
+		<span class="input_text">Last name: </span><br><input id="last_name" type="text" name="lastname" required value="{{ lastname }}">
+		<br>
+		<br>
+		<script>
+		var def_email="";
+		function getEmail(){
+			var fname = document.getElementById("first_name").value.toLowerCase();
+			var lname = document.getElementById("last_name").value.toLowerCase();
+			
+			def_email = def_email.concat(fname.substring(0, 2),lname, "@davidson.edu");
+			document.getElementById("email_id").value = def_email;
+			def_email = "";
+		}
+		</script>  	
+	
+		<span class="input_text">Confirm Email:  </span><br><input id="email_id" onfocus="getEmail()" type="email" name="email" value ="" required>
+		<br><br>
+
+		{% if firstname|length > 0 and lastname|length > 0 %}
+			{% set first_load = False %}
+			<input id="button" type="submit" name="submit" value="Find My Courses">
+		{% endif %}
+		{% if courses|length > 0 %}
+			{% set pop_courses = True %}
+			<h3 id="full_name"></h3>
+			<p id="you_teach">Please upload your syllabus for each of the following courses. Under "Visitable", check whether you 	
+				would want prospective students to visit your class ("Can visit") or not ("Not open"). Under "Privacy," please check
+				 whether everyone can view your syllabus ("Anyone") or only those on the Davidson network ("Only Davidson"). </p>
+			<br>
+				
+			{% if courses[0].acad_period[-2:] == "01" %}
+				<h3 id="you_teach">Professor {{ courses[0].instructor.split(',')[0] }}'s Courses for Fall {{ courses[0].acad_period[:4] }}</h3>
+			{% else %}
+				<h3 id="you_teach">Professor {{ courses[0].instructor.split(',')[0] }}'s Courses for Spring {{ courses[0].acad_period[:4] }}</h3>
+			{% endif %}
+	
+		<table id="class_table">
+			<thead>				
+				<tr>
+					<th name="dep">Dept</th>
+					<th name="course_num">Crs</th>
+					<th name="class_section">Sec</th>
+					<th name="CRN">CRN</th>
+					<th name="title">Title</th>
+					<th name="class_days">Days</th>
+					<th name="class_time">Time</th>
+					<th name="class_place">Location</th>
+					<!-- <th name="instructor">Instructor</th> -->
+					<th name="course_attrib">Notes</th>
+					<th name="course_attrib">Distribution</th>
+					<th name="data">Syllabus</th>
+					<th name="visitable">Visitable</th>
+					<th name="privacy">Privacy</th>
+				</tr>
+			</thead>	
+			<tbody>
+				{% for c in courses %}
+					
+					<tr>
+						<td name="dep{{loop.index0}}">{{ c.dep }}</td>
+						<td name="course_num{{loop.index0}}">{{ c.course_num }}</td>
+						<td name="class_section{{loop.index0}}">{{ c.class_section }}</td>
+						<td name="CRN{{loop.index0}}">{{ c.CRN }}</td>
+						<td name="title{{loop.index0}}">{{ c.title }}</td>
+						<td name="class_days{{loop.index0}}">{{ c.class_days }}</td>
+						<td name="class_time{{loop.index0}}">{{ c.class_time }}</td>
+						<td name="class_place{{loop.index0}}">{{ c.class_place }}</td>
+						<!-- <td name="instructor{{loop.index0}}">{{ c.instructor }}</td> -->
+						<td name="course_attrib{{loop.index0}}">{{ c.course_attrib }}</td>
+						<td name="course_attrib{{loop.index0}}">{{ c.course_attrib }}</td>					
+						<td name="data{{loop.index0}}"><p>Current syllabus: <a href="{{url_for('download', filename=c.data) }}">{{ c.data }}</a></p>
+						<p>Upload course syllabus: <input type="file" name="data{{loop.index0}}" size="40"></p></td>
+						{% if c.visitable == "Can visit" %}
+						<td name="visitable{{loop.index0}}"><input type="radio" name="visitable{{loop.index0}}" value="Can visit" checked> Can visit <br >
+							<input type="radio" name="visitable{{loop.index0}}" value="Not open"> Not open</td>
+						{% else %}
+						<td name="visitable{{loop.index0}}"><input type="radio" name="visitable{{loop.index0}}" value="Can visit"> Can visit <br >
+							<input type="radio" name="visitable{{loop.index0}}" value="Not open" checked> Not open</td>
+						{% endif %}
+						{% if c.privacy == "All" %}
+						<td name="privacy{{loop.index0}}"><input type="radio" name="privacy{{loop.index0}}" value="All" checked> Anyone <br >
+							<input type="radio" name="privacy{{loop.index0}}" value="Davidson"> Only Davidson </td>
+						{% else %}
+						<td name="privacy{{loop.index0}}"><input type="radio" name="privacy{{loop.index0}}" value="All"> Anyone <br >
+							<input type="radio" name="privacy{{loop.index0}}" value="Davidson" checked> Only Davidson </td>
+						{% endif %}
+
+											
+					</tr>
+				{% endfor %}
+				
+			</tbody>
+		
+		</table>
+		<br>
+		<script>
+		//var fullname = "";
+		function displayClasses(){	
+			document.getElementById('class_table').scrollIntoView();
+		}
+		</script>
+		<div id="class_intro">
+		<script>
+			displayClasses()
+		</script>
+		</div>
+		{% endif %}
+		
+
+		{%- for message in get_flashed_messages() %}
+			<h4 class="input_text" style="color: red;">{{ message }}</h4>
+		{%- endfor %}
+		
+		{% if pop_courses == False and first_load == True%}
+		    <input id="button" type="submit" name="submit" value="Find My Courses">
+		{% elif pop_courses == False and first_load == False%}
+			<p style="color: red;">No courses found. Please check your spelling and try again.</p>
+		{% elif pop_courses == True and first_load == False %}
+			<input id="syl_button" type="submit" name="submit" value="Submit Syllabi">
+			{% set pop_courses = False %}
+			{% set submit_courses = True %}
+		{% endif %}
+		
+	    </form>
+
+	   	    
+	
+		</div>	    
+    </body>
+</html>
+

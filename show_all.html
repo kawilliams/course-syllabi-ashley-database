@@ -1,92 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link rel='stylesheet' href='syllabus.css' />
-		<style>
-	body{
-	background-color: #990000;
-	}
-	
-	#davidson_logo {
-	font-size: 50px;
-	text-align: center;	
-	font-family: "copperplate gothic lite";
-	text-shadow: 2px 2px 4px #FF0000;
-	}
-	
-	#thanks{
-	background-color: #e6e6e6;	
-	margin: 40px;
-	margin-top:40px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
-	min-width: 500px;	
-	}	
-	
-	h1{
-	padding:30px;
-	text-align:center;	
-	}
-	
-	#further_choices{
-	background-color:white;
-	text-align:center;
-	width:40%;	
-	padding:10px;
-	margin-left:30%;
-	font-size:16px;
-	}
-	
-</style>	
-	</head>
+	    <link rel="stylesheet" type="text/css" href={{url_for('static',filename='upload.css')}}>
+        <title>Revamp</title>
+    </head>
+
 	
 	<body>
 		
 		<h4 id="davidson_logo">DAVIDSON COLLEGE</h4>
-		<h3><a href="{{ url_for('show_all') }}"> Syl</a></h3>
 		<hr />
 		{%- for message in get_flashed_messages() %}
 			{{ message }}
 		{%- endfor %}
-		<div id="thanks">
-			<h1>Thank you for your submission!<h1><br><br>
-				<div id="further_choices">
-					<p>To make changes to your syllabus submission, click here:<p>
-					<a href="{{ url_for('new') }}">Syllabus Submission Form</a><br><br>
-					<p>To browse other course syllabi, click here:<p>
-					<a href="search.html">Browse Syllabi</a><br><br>
-				</div>
-		
-		<h3> Syllabus(<a href="{{ url_for('new') }}"> Add syllabus </a>) </h3>
-		<table>
-			<thead>
-				
+
+		<div id="database">
+		<h3 style="color: white;"> Syllabus(<a style="color: white;" href="{{ url_for('get_courses') }}"> Add syllabus </a>) </h3>
+		<table style="border: 3px;">
+			<thead>				
 				<tr>
-					<th>Year</th>
-					<th>Semester</th>
-					<th>Department</th>
-					<th>Course Number</th>
-					<th>Professor</th>
-					<th>Email</th>
-					<th>Syllabus</th>
-					<th>Description</th>
-					<th>Visitable</th>
-					<th>Privacy</th>
+					<th name="dep">Dept</th>
+					<th name="course_num">Crs</th>
+					<th name="class_section">Sec</th>
+					<th name="CRN">CRN</th>
+					<th name="title">Title</th>
+					<th name="class_days">Days</th>
+					<th name="class_time">Time</th>
+					<th name="class_place">Location</th>
+					<th name="instructor">Instructor</th>
+					<th name="course_attrib">Notes</th>
+					<th name="course_attrib">Distribution</th>
+					<th name="data">Syllabus</th>
+					<th name="visitable">Visitable</th>
+					<th name="privacy">Privacy</th>
 				</tr>
-			</thead>
-			
+			</thead>	
 			<tbody>
-				{% for up in uploads %}
+				{% for c in courses %}
+					
 					<tr>
-						<td>{{ up.year }}</td>
-						<td>{{ up.semester }}</td>
-						<td>{{ up.dept }}</td>
-						<td>{{ up.classnum }}</td>
-						<td>{{ up.last_name }}, {{ up.first_name }}</td>
-						<td>{{ up.email }}</td>
-						<td><a href="{{url_for('download', filename=up.data) }}">{{ up.data }}</a></td>
-						<td>{{ up.desc }}</td>
-						<td>{{ up.visitable }}</td>
-						<td>{{ up.privacy }}</td>
+						<td name="dep{{loop.index0}}">{{ c.dep }}</td>
+						<td name="course_num{{loop.index0}}">{{ c.course_num }}</td>
+						<td name="class_section{{loop.index0}}">{{ c.class_section }}</td>
+						<td name="CRN{{loop.index0}}">{{ c.CRN }}</td>
+						<td name="title{{loop.index0}}">{{ c.title }}</td>
+						<td name="class_days{{loop.index0}}">{{ c.class_days }}</td>
+						<td name="class_time{{loop.index0}}">{{ c.class_time }}</td>
+						<td name="class_place{{loop.index0}}">{{ c.class_place }}</td>
+						<td name="instructor{{loop.index0}}">{{ c.instructor }}</td>
+						<td name="course_attrib{{loop.index0}}">{{ c.course_attrib }}</td>
+						<td name="course_attrib{{loop.index0}}">{{ c.course_attrib }}</td>			
+						<td><a href="{{url_for('download', filename=c.data) }}">{{ c.data }}</a></td>
+						<td name="visitable{{loop.index0}}">{{ c.visitable }}</td>
+						<td name="privacy{{loop.index0}}">{{ c.privacy }}</td>
 											
 					</tr>
 				{% endfor %}
